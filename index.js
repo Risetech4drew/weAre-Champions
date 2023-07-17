@@ -30,13 +30,6 @@ publishBtn.addEventListener("click", function(){
     let from = fromInputEl.value
     let to = toInputEl.value
 
-    // set(endorsementsInDb, {
-        
-    //     message:textFieldValue,
-    //     from: from,
-    //     to: to
-
-    // })
     if(textFieldValue === "" || from === "" || to === "") {
         textFieldEl.classList.add("applyRedBorder")
         fromInputEl.classList.add("applyRedBorder")
@@ -58,7 +51,7 @@ publishBtn.addEventListener("click", function(){
         
     
         push(endorsementsInDb,endorsementDetails)
-        // appendEndorsementsEl()
+        
         textFieldEl.value = ""
         fromInputEl.value = ""
         toInputEl.value = ""
@@ -118,9 +111,12 @@ function appendEndorsementsEl(item){
 
 
     let li = document.createElement("li")
-    li.innerHTML = `<h4>${itemSender}</h4>
+    li.innerHTML = `<h4>To ${itemReceiver}</h4>
                     <p>${itemMessage}</p>
-                    <h4>${itemReceiver}</h4>`
+                    <div class = "wrapper">
+                        <h4>From ${itemSender}</h4>
+                    </div>`
+                    
     endorsementsListEl.append(li)
 
     // endorsementsEl.innerHTML += `<li>
