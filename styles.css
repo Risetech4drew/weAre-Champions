@@ -3,6 +3,7 @@ body{
     padding: 0;
     font-family: 'Josefin Sans', sans-serif;
     user-select: none;
+   
     
 }
 h1{
@@ -23,7 +24,7 @@ h1{
 }
 .container{
     width: 390px;
-    margin: 30px auto;
+    margin: 0 auto;
     flex-shrink: 0;
     background: #1B1924;
     display: flex;
@@ -69,7 +70,17 @@ input{
     font-size: 15px;
     font-weight: 400;
     line-height: normal;
-    text-align: center;
+    text-align: center;    
+}
+/* input validation styling for empty strings */
+.textarea, input{
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+
+}
+.applyRedBorder{
+    border-color:#E11D48;
+
 }
 input:focus{
     outline: none;
@@ -105,11 +116,19 @@ ul li{
 }
 ul li p{
     width: 300px;
-    margin: 0 auto;
+    margin: 12px auto 10px;
     color: #1B1924;
     font-size: 12px;
     font-style: normal;
     font-family: 'Inter', sans-serif;
     font-weight: 400;
     line-height: normal;
+}
+ul li h4{
+    
+    margin: 0 0 0 20px;
+    font-size: 14px;
+    color: #1B1924;
+   
+
 }

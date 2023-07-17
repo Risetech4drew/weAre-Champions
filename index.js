@@ -1,6 +1,6 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js"
-import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
+import { getDatabase, ref, push, onValue, remove, set } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
 
 const textFieldEl = document.getElementById("textField-el")
 const publishBtn = document.getElementById("publish-button")
@@ -27,12 +27,45 @@ const endorsementsInDb = ref(database, "endorsements")
 publishBtn.addEventListener("click", function(){
     let textFieldValue = textFieldEl.value
 
-    appendEndorsementsEl(textFieldValue)
+    let from = fromInputEl.value
+    let to = toInputEl.value
 
-    push(endorsementsInDb,textFieldValue)
+    // set(endorsementsInDb, {
+        
+    //     message:textFieldValue,
+    //     from: from,
+    //     to: to
 
+    // })
+    if(textFieldValue === "" || from === "" || to === "") {
+        textFieldEl.classList.add("applyRedBorder")
+        fromInputEl.classList.add("applyRedBorder")
+        toInputEl.classList.add("applyRedBorder")
 
-    textFieldEl.value = ""
+    } else{
+
+        textFieldEl.classList.remove("applyRedBorder")
+        fromInputEl.classList.remove("applyRedBorder")
+        toInputEl.classList.remove("applyRedBorder")
+
+        const endorsementDetails = {
+
+            message: textFieldValue,
+            from: from,
+            to:to
+        }
+    
+        
+    
+        push(endorsementsInDb,endorsementDetails)
+        // appendEndorsementsEl()
+        textFieldEl.value = ""
+        fromInputEl.value = ""
+        toInputEl.value = ""
+
+    }
+
+    
 })
 
 // fetching data from database using onValue function
@@ -40,6 +73,7 @@ onValue(endorsementsInDb, function(snapShot){
 
     if(snapShot.exists()){
         let endorsementsArray = Object.entries(snapShot.val())
+        
     
         clearEndorsementsEl()
     
@@ -47,11 +81,17 @@ onValue(endorsementsInDb, function(snapShot){
         for(let i = 0; i < endorsementsArray.length; i++){
     
             let endorsementList = endorsementsArray[i]
+            // console.log(endorsementList)
             let endorsementID = endorsementList[0]
+            // console.log(endorsementID)
             let endorsementValue = endorsementList[1]
-    
-            
-    
+            let endorsementSender = endorsementValue.from
+            let endorsementMessage = endorsementValue.message
+            let endorsementReceiver = endorsementValue.to
+            // console.log(endorsementSender)
+            // console.log(endorsementMessage)
+            // console.log(endorsementReceiver)
+          
             appendEndorsementsEl(endorsementList)
         }
 
@@ -71,10 +111,16 @@ function appendEndorsementsEl(item){
 
     let itemID = item[0]
     let itemValue = item[1]
+    let itemSender = itemValue.from
+    let itemMessage = itemValue.message
+    let itemReceiver = itemValue.to
+
 
 
     let li = document.createElement("li")
-    li.innerHTML = `<p>${itemValue}</p>`
+    li.innerHTML = `<h4>${itemSender}</h4>
+                    <p>${itemMessage}</p>
+                    <h4>${itemReceiver}</h4>`
     endorsementsListEl.append(li)
 
     // endorsementsEl.innerHTML += `<li>
@@ -91,7 +137,7 @@ function appendEndorsementsEl(item){
     })
 }
 
-//clear endosementsEl
+
 function clearEndorsementsEl(){
 
     endorsementsListEl.innerHTML = ""
